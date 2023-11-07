@@ -65,7 +65,7 @@ def precipitation():
     # Perform a query to retrieve the data and precipitation scores
     query = session.query(Measurement.date, Measurement.prcp).\
                                 filter(Measurement.date >= year_range).all()
-
+    session.close()
     #convert query into dictionary
     climate_dict = [{'Date': date, 'precipitation': prcp} for date, prcp in query]
 
@@ -78,7 +78,7 @@ def stations():
     query_station= session.query(Measurement.station).group_by(Measurement.station).all()
   
     #convert query into dictionary
-    
+    session.close()
     station_names = list(np.ravel(query_station))
 
     #return Json file of stations
@@ -91,7 +91,7 @@ def tobs():
     #perform query to find date and temperature readings for previous year
     year_temp_query=session.query(Measurement.date, Measurement.tobs).filter(Measurement.station=='USC00519281').\
                                             filter(Measurement.date >= year_range).all()
-    
+    session.close()
     #convert query into dictionary
     temp_dict = [{'Date': date, 'Temperature': temp} for date, temp in year_temp_query]
 
@@ -104,7 +104,7 @@ def temp_data(start):
     start_date=start
     #perform query to find min, max and av temperatures
     station_temp=session.query(func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs)).filter(Measurement.date >= start_date).all()
-        
+    session.close()
     #convert query into dictionary
     temp_dict = [{'Min Temperature': min, 'Max Temperature': max, 'Average Temperature': avg} for min, max, avg in station_temp]
     # return Json file
@@ -117,7 +117,7 @@ def range_temp(start,end):
     end_date=end
     #perform query to find min, max and av temperatures
     station_temp=session.query(func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs)).filter(Measurement.date >= start_date).filter(Measurement.date <= end_date).all()
-        
+    session.close() 
     #convert query into dictionary
     temp_dict = [{'Min Temperature': min, 'Max Temperature': max, 'Average Temperature': avg} for min, max, avg in station_temp]
     # return Json file
