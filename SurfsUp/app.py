@@ -48,9 +48,9 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/2014-08-03<br/>"
+        f"/api/v1.0/start_date/2014-08-03<br/>"
         f"Enter date in format of YYYY-MM-DD between 2010-01-01 and 2017-08-23<br/>"
-        f"/api/v1.0/2013-06-08/2017-01-28<br/>"
+        f"/api/v1.0/start_date/2013-06-08/end_date/2017-01-28<br/>"
         f"Enter date in format of YYYY-MM-DD between 2010-01-01 and 2017-08-23"
 
     )
@@ -98,7 +98,7 @@ def tobs():
     #return Json file
     return jsonify(temp_dict)
 
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/start_date/<start>")
 def temp_data(start):
     #defining variables
     start_date=start
@@ -110,7 +110,7 @@ def temp_data(start):
     # return Json file
     return jsonify(temp_dict)
         
-@app.route("/api/v1.0/<start>/<end>")
+@app.route("/api/v1.0/start_date/<start>/end_date/<end>")
 def range_temp(start,end):
     #defining variables
     start_date=start
